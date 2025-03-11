@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.InnerGrowth"
+        tools:targetApi="31">
+        <activity
+            android:name=".card6"
+            android:exported="false" />
+        <activity
+            android:name=".card5"
+            android:exported="false" />
+        <activity
+            android:name=".card4"
+            android:exported="false" />
+        <activity
+            android:name=".card3"
+            android:exported="false" />
+        <activity
+            android:name=".card2"
+            android:exported="false" />
+        <activity
+            android:name=".card1"
+            android:exported="false" />
+        <activity
+            android:name=".UpdateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadActivity"
+            android:exported="false" />
+        <activity
+            android:name=".test62"
+            android:exported="false" />
+        <activity
+            android:name=".test61"
+            android:exported="false" />
+        <activity
+            android:name=".test52"
+            android:exported="false" />
+        <activity
+            android:name=".test51"
+            android:exported="false" />
+        <activity
+            android:name=".test44"
+            android:exported="false" />
+        <activity
+            android:name=".test43"
+            android:exported="false" />
+        <activity
+            android:name=".test42"
+            android:exported="false" />
+        <activity
+            android:name=".test41"
+            android:exported="false" />
+        <activity
+            android:name=".test35"
+            android:exported="false" />
+        <activity
+            android:name=".test34"
+            android:exported="false" />
+        <activity
+            android:name=".test33"
+            android:exported="false" />
+        <activity
+            android:name=".test32"
+            android:exported="false" />
+        <activity
+            android:name=".test31"
+            android:exported="false" />
+        <activity
+            android:name=".test25"
+            android:exported="false" />
+        <activity
+            android:name=".test24"
+            android:exported="false" />
+        <activity
+            android:name=".test23"
+            android:exported="false" />
+        <activity
+            android:name=".test22"
+            android:exported="false" />
+        <activity
+            android:name=".test21"
+            android:exported="false" />
+        <activity
+            android:name=".test14"
+            android:exported="false" />
+        <activity
+            android:name=".test13"
+            android:exported="false" />
+        <activity
+            android:name=".test12"
+            android:exported="false" />
+        <activity
+            android:name=".test11"
+            android:exported="false" />
+        <activity
+            android:name=".test6"
+            android:exported="false" />
+        <activity
+            android:name=".test5"
+            android:exported="false" />
+        <activity
+            android:name=".DialogForgotActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".test4"
+            android:exported="false" />
+        <activity
+            android:name=".test3"
+            android:exported="false" />
+        <activity
+            android:name=".test2"
+            android:exported="false" />
+        <activity
+            android:name=".test1"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "555734549811",
+    "firebase_url": "https://the-agro-care-7cf52-default-rtdb.firebaseio.com",
+    "project_id": "the-agro-care-7cf52",
+    "storage_bucket": "the-agro-care-7cf52.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555734549811:android:6de27eeb18a18c19d6ea46",
+        "android_client_info": {
+          "package_name": "app.psy.innergrowth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDc5BoVFM_cJWA4F8YLFeNjWaOwklh-yFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

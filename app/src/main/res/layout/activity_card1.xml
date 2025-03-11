@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/gray"
+tools:context=".card1">
+
+<!-- Land Size Input -->
+<EditText
+    android:background="@color/brown2"
+    android:id="@+id/etLandSize"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Enter Land Size (m²)"
+    android:inputType="numberDecimal"
+    android:padding="16dp"
+    android:layout_alignParentTop="true"
+    android:layout_marginTop="60dp"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp" />
+
+<!-- Crop Type Spinner -->
+
+<!-- Calculate Button -->
+
+<Spinner
+    android:id="@+id/spCropType"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/etLandSize"
+    android:layout_marginLeft="30dp"
+    android:layout_marginTop="30dp"
+    android:layout_marginRight="30dp"
+    android:background="@color/brown2"
+    android:padding="16dp" />
+
+<Button
+    android:id="@+id/btnCalculate"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Calculate"
+    android:textColor="@android:color/black"
+    android:background="@color/gray"
+    android:layout_below="@id/spCropType"
+    android:layout_marginTop="30dp"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp" />
+
+<!-- Result TextView -->
+<TextView
+    android:id="@+id/tvResult"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Result will appear here"
+    android:textColor="@android:color/black"
+    android:textSize="16sp"
+    android:padding="16dp"
+    android:layout_below="@id/btnCalculate"
+    android:layout_marginTop="30dp"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp" />
+
+<!-- Bottom Navigation -->
+<com.google.android.material.bottomnavigation.BottomNavigationView
+    android:id="@+id/bottomNavigation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_marginBottom="30dp"
+    android:layout_marginEnd="30dp"
+    android:layout_marginStart="30dp"
+    android:layout_marginTop="30dp"
+    android:background="@drawable/bottom_background"
+    android:elevation="2dp"
+    app:itemIconSize="30dp"
+    app:itemIconTint="@drawable/item_selector"
+    app:itemRippleColor="@android:color/transparent"
+    app:labelVisibilityMode="unlabeled"
+    app:menu="@menu/bottom_menu" />
+
+</RelativeLayout>

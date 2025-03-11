@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "124340834815",
+    "firebase_url": "https://inner-growth-e70f2-default-rtdb.firebaseio.com",
+    "project_id": "inner-growth-e70f2",
+    "storage_bucket": "inner-growth-e70f2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124340834815:android:da40e2298e0136466217ca",
+        "android_client_info": {
+          "package_name": "app.psy.innergrowth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSz2Ldq2SFS8uLvaRd6-wWVIQUpIUJJ0s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
