@@ -67,11 +67,20 @@ dependencies {
 
     implementation ("com.github.bumptech.glide:glide:4.14.2")
     implementation(libs.firebase.storage)
+    implementation(libs.firebase.firestore)
+    implementation(libs.monitor)
+    implementation(libs.ext.junit)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.testng)
     annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
     implementation ("com.github.clans:fab:1.6.4")
 
     implementation ("com.google.firebase:firebase-database:21.0.0")
     implementation ("com.google.firebase:firebase-storage:21.0.1")
     implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
+
+    testImplementation ("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+
 
 }

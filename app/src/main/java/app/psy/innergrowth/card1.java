@@ -14,7 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class card1 extends AppCompatActivity {
 
     private EditText etLandSize;
-    private Spinner spCropType;
+    private Spinner spCropType, spWeather;
     private Button btnCalculate;
     private TextView tvResult;
 
@@ -51,20 +51,21 @@ public class card1 extends AppCompatActivity {
 
         etLandSize = findViewById(R.id.etLandSize);
         spCropType = findViewById(R.id.spCropType);
+        spWeather = findViewById(R.id.spWeather); // Weather spinner
         btnCalculate = findViewById(R.id.btnCalculate);
         tvResult = findViewById(R.id.tvResult);
 
         // Set up crop type options
         String[] crops = {"Barley", "Corn", "Potato", "Tomato"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, crops);
-        spCropType.setAdapter(adapter);
+        ArrayAdapter<String> cropAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, crops);
+        spCropType.setAdapter(cropAdapter);
 
-        btnCalculate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calculateRequirements();
-            }
-        });
+        // Set up weather options with the updated weather conditions
+        String[] weatherOptions = {"Rainy", "Dry", "Cloudy", "Stormy"};
+        ArrayAdapter<String> weatherAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, weatherOptions);
+        spWeather.setAdapter(weatherAdapter);
+
+        btnCalculate.setOnClickListener(v -> calculateRequirements());
     }
 
     private void calculateRequirements() {
@@ -74,11 +75,11 @@ public class card1 extends AppCompatActivity {
             return;
         }
 
-        double landSize = Double.parseDouble(landSizeStr); // Land size in m²
+        double landSize = Double.parseDouble(landSizeStr); // Land size in square meters
         String selectedCrop = spCropType.getSelectedItem().toString();
+        String selectedWeather = spWeather.getSelectedItem().toString(); // Weather selection
 
-        double seedRate = 0;
-        double nitrogen = 0, phosphorus = 0, potassium = 0;
+        double seedRate = 0, nitrogen = 0, phosphorus = 0, potassium = 0;
 
         switch (selectedCrop) {
             case "Barley":
@@ -107,12 +108,30 @@ public class card1 extends AppCompatActivity {
                 break;
         }
 
+        // Weather impact on fertilizer requirements
+        double weatherFactor = 1.0;
+        switch (selectedWeather) {
+            case "Rainy":
+                weatherFactor = 1.2; // Increase fertilizer requirement for rainy weather
+                break;
+            case "Dry":
+                weatherFactor = 1.5; // Increase fertilizer requirement for dry weather
+                break;
+            case "Cloudy":
+                weatherFactor = 1.1;
+                break;
+            case "Stormy":
+                weatherFactor = 0.9; // Decrease fertilizer requirement in stormy weather
+                break;
+        }
+
         double requiredSeeds = (landSize * seedRate) / 10000;
-        double requiredNitrogen = (landSize * nitrogen) / 10000;
-        double requiredPhosphorus = (landSize * phosphorus) / 10000;
-        double requiredPotassium = (landSize * potassium) / 10000;
+        double requiredNitrogen = ((landSize * nitrogen) / 10000) * weatherFactor;
+        double requiredPhosphorus = ((landSize * phosphorus) / 10000) * weatherFactor;
+        double requiredPotassium = ((landSize * potassium) / 10000) * weatherFactor;
 
         String result = "\uD83C\uDF31 Selected Crop: " + selectedCrop + "\n" +
+                "\uD83C\uDF27 Selected Weather: " + selectedWeather + "\n" +
                 "\uD83D\uDFE2 Required Seeds: " + String.format("%.2f", requiredSeeds) + " kg\n" +
                 "\uD83D\uDCA3 Nitrogen (N): " + String.format("%.2f", requiredNitrogen) + " kg\n" +
                 "\uD83D\uDCA1 Phosphorus (P): " + String.format("%.2f", requiredPhosphorus) + " kg\n" +
@@ -120,4 +139,5 @@ public class card1 extends AppCompatActivity {
 
         tvResult.setText(result);
     }
+
 }

@@ -1,10 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/brown2"
     tools:context=".card4">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <EditText
+        android:id="@+id/editTextWidth"
+        android:textSize="28dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter field width (m)"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"/>
+
+    <EditText
+        android:id="@+id/editTextLength"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextWidth"
+        android:layout_marginTop="8dp"
+        android:hint="Enter field length (m)"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"/>
+
+    <EditText
+        android:id="@+id/editTextSeedRate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextLength"
+        android:layout_marginTop="8dp"
+        android:hint="Enter seed rate (kg/m²)"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"/>
+
+
+
+    <Button
+        android:id="@+id/buttonCalculate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextSeedRate"
+        android:layout_marginTop="8dp"
+        android:text="Calculate" />
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonCalculate"
+        android:layout_marginTop="8dp"
+        android:text="Save Calculation" />
+
+    <TextView
+        android:id="@+id/textViewResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonSave"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:text="Result will be shown here" />
+
+    <TextView
+        android:id="@+id/textViewResult2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewResult"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:text="Previous Results:" />
+
+    <ListView
+        android:id="@+id/listViewResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewResult2"
+        android:layout_marginTop="8dp" />
+
+</RelativeLayout>

@@ -1,8 +1,11 @@
 package app.psy.innergrowth;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import com.google.firebase.firestore.util.Assert;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

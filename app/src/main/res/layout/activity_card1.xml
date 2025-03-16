@@ -22,11 +22,16 @@ tools:context=".card1">
     android:layout_marginLeft="30dp"
     android:layout_marginRight="30dp" />
 
-<!-- Crop Type Spinner -->
+
+
+
+    <!-- Crop Type Spinner -->
 
 <!-- Calculate Button -->
 
-<Spinner
+
+
+    <Spinner
     android:id="@+id/spCropType"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -36,6 +41,15 @@ tools:context=".card1">
     android:layout_marginRight="30dp"
     android:background="@color/brown2"
     android:padding="16dp" />
+    <Spinner
+        android:id="@+id/spWeather"
+        android:background="@color/brown2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/spCropType"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp" />
 
 <Button
     android:id="@+id/btnCalculate"
@@ -45,7 +59,7 @@ tools:context=".card1">
     android:textColor="@android:color/black"
     android:background="@color/gray"
     android:layout_below="@id/spCropType"
-    android:layout_marginTop="30dp"
+    android:layout_marginTop="120dp"
     android:layout_marginLeft="30dp"
     android:layout_marginRight="30dp" />
 
