@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 
 }
 
@@ -10,6 +11,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
+
         applicationId = "app.psy.innergrowth"
         minSdk = 24
         targetSdk = 35
@@ -55,13 +57,12 @@ dependencies {
 
 
 
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
-    
+
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-analytics")
 
-    
+
     implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation ("com.github.TutorialsAndroid:GButton:v1.0.19")
 
@@ -81,6 +82,20 @@ dependencies {
 
     testImplementation ("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
+
+    implementation ("com.android.volley:volley:1.2.1")
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    implementation ("com.google.android.gms:play-services-maps:18.2.0")
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
+
+    implementation ("androidx.fragment:fragment-ktx:1.5.7")
+
+
 
 
 }

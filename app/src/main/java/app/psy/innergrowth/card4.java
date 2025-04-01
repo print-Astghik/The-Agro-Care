@@ -61,7 +61,7 @@ public class card4 extends AppCompatActivity {
 
     private void saveCalculation() {
         String result = textViewResult.getText().toString();
-        if (result.equals("Result will be shown here")) {
+        if (result.equals("Result will be shown here") || result.isEmpty()) {
             Toast.makeText(this, "No calculation to save", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -70,11 +70,16 @@ public class card4 extends AppCompatActivity {
         databaseReference.child(id).setValue(result).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(this, "Calculation saved", Toast.LENGTH_SHORT).show();
+
+                // Ավելացնել նոր արդյունքը ցուցակում առանց Firebase-ից նորից բեռնելու
+                calculationsList.add(result);
+                adapter.notifyDataSetChanged();
             } else {
                 Toast.makeText(this, "Failed to save", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
     private void loadCalculations() {
         databaseReference.addValueEventListener(new ValueEventListener() {

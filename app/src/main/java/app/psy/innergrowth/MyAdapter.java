@@ -69,7 +69,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 class MyViewHolder extends RecyclerView.ViewHolder{
 
     ImageView recImage;
-    TextView recTitle, recDesc, recLang;
+    TextView recTitle,recLang, recDesc;
     CardView recCard;
 
     public MyViewHolder(@NonNull View itemView) {

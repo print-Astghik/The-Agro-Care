@@ -1,6 +1,7 @@
 package app.psy.innergrowth;
 
 
+
 public class DataClass {
 
     private String dataTitle;

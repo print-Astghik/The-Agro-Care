@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">The Agro Care</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve">2b9c951f57d15d32dc24e6838ec72fec</string>
 </resources>

@@ -1,7 +1,6 @@
 package app.psy.innergrowth;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -9,74 +8,48 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import android.widget.LinearLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 public class card2 extends AppCompatActivity {
 
     private EditText etLandSize;
     private Spinner spCropType, spWeather;
-    private Button btnCalculate;
-    private TextView tvResult;
+    private Button btnCalculate, btnClearData;
+    private LinearLayout llHistory;  // For dynamically adding history items
+    private List<String> history;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card2);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
-        bottomNavigationView.setSelectedItemId(R.id.bottom_search);
+        etLandSize = findViewById(R.id.etLandSize);
+        spCropType = findViewById(R.id.spCropType);
+        spWeather = findViewById(R.id.spWeather);
+        btnCalculate = findViewById(R.id.btnCalculate);
+        btnClearData = findViewById(R.id.btnClearData);
+        llHistory = findViewById(R.id.llHistory);  // History layout
 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.bottom_home) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
-                return true;
-            } else if (itemId == R.id.bottom_search) {
-                return true;
-            } else if (itemId == R.id.bottom_settings) {
-                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
-                return true;
-            } else if (itemId == R.id.bottom_profile) {
-                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
-                return true;
-            }
-            return false;
-        });
+        history = new ArrayList<>();
 
-        etLandSize = findViewById(R.id.landSizeInput);
-        spCropType = findViewById(R.id.cropTypeSpinner);
-        spWeather = findViewById(R.id.weatherConditionSpinner);
-        btnCalculate = findViewById(R.id.calculateButton);
-        tvResult = findViewById(R.id.resultText);
-
-        // Set up crop type options
-        String[] crops = {"Barley", "Corn", "Potato", "Tomato"};
+        // Adding spinner options
+        String[] crops = {"Barley", "Corn", "Tomato", "Wheat"};
         ArrayAdapter<String> cropAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, crops);
         spCropType.setAdapter(cropAdapter);
 
-        // Set up weather options
-        String[] weatherConditions = {"Sunny", "Cloudy", "Rainy", "Stormy", "Snowy", "Foggy", "Windy"};
-        ArrayAdapter<String> weatherAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, weatherConditions);
+        String[] weatherOptions = {"Rainy", "Dry", "Cloudy", "Stormy"};
+        ArrayAdapter<String> weatherAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, weatherOptions);
         spWeather.setAdapter(weatherAdapter);
 
-        btnCalculate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calculateRequirements();
-            }
-        });
+        btnCalculate.setOnClickListener(v -> calculateWaterNeed());
+        btnClearData.setOnClickListener(v -> clearHistory());
     }
 
-    private void calculateRequirements() {
+    private void calculateWaterNeed() {
         String landSizeStr = etLandSize.getText().toString();
         if (landSizeStr.isEmpty()) {
-            tvResult.setText("Please enter the land size");
             return;
         }
 
@@ -84,75 +57,78 @@ public class card2 extends AppCompatActivity {
         String selectedCrop = spCropType.getSelectedItem().toString();
         String selectedWeather = spWeather.getSelectedItem().toString();
 
-        double seedRate = 0;
-        double nitrogen = 0, phosphorus = 0, potassium = 0;
-        double waterRequirement = 1.0;
+        double waterNeed = 0.0;
 
         switch (selectedCrop) {
             case "Barley":
-                seedRate = 150;
-                nitrogen = 50;
-                phosphorus = 40;
-                potassium = 30;
+                waterNeed = 500;
                 break;
             case "Corn":
-                seedRate = 25;
-                nitrogen = 100;
-                phosphorus = 60;
-                potassium = 40;
-                break;
-            case "Potato":
-                seedRate = 2000;
-                nitrogen = 120;
-                phosphorus = 90;
-                potassium = 80;
+                waterNeed = 800;
                 break;
             case "Tomato":
-                seedRate = 500;
-                nitrogen = 70;
-                phosphorus = 50;
-                potassium = 45;
+                waterNeed = 700;
+                break;
+            case "Wheat":
+                waterNeed = 600;
                 break;
         }
 
+        double weatherFactor = 1.0;
         switch (selectedWeather) {
-            case "Sunny":
-                waterRequirement = 1.2;
+            case "Rainy":
+                weatherFactor = 0.8;
+                break;
+            case "Dry":
+                weatherFactor = 1.5;
                 break;
             case "Cloudy":
-                waterRequirement = 1.0;
-                break;
-            case "Rainy":
-                waterRequirement = 0.8;
+                weatherFactor = 1.2;
                 break;
             case "Stormy":
-                waterRequirement = 1.5;
-                break;
-            case "Snowy":
-                waterRequirement = 0.5;
-                break;
-            case "Foggy":
-                waterRequirement = 0.9;
-                break;
-            case "Windy":
-                waterRequirement = 1.3;
+                weatherFactor = 1.1;
                 break;
         }
 
-        double requiredSeeds = (landSize * seedRate) / 10000;
-        double requiredNitrogen = (landSize * nitrogen) / 10000;
-        double requiredPhosphorus = (landSize * phosphorus) / 10000;
-        double requiredPotassium = (landSize * potassium) / 10000;
-        double requiredWater = (landSize * 5000 * waterRequirement) / 10000;
+        double totalWaterNeed = landSize * waterNeed * weatherFactor;
 
-        String result = "🌱 Selected Crop: " + selectedCrop + "\n" +
-                "☁️ Weather: " + selectedWeather + "\n" +
-                "🟢 Required Seeds: " + String.format("%.2f", requiredSeeds) + " kg\n" +
-                "💥 Nitrogen (N): " + String.format("%.2f", requiredNitrogen) + " kg\n" +
-                "💡 Phosphorus (P): " + String.format("%.2f", requiredPhosphorus) + " kg\n" +
-                "💧 Potassium (K): " + String.format("%.2f", requiredPotassium) + " kg\n" +
-                "🌧️ Water Required: " + String.format("%.2f", requiredWater) + " liters";
+        // Creating new history item
+        String result = "Water requirement for " + selectedCrop + " in " + selectedWeather + " weather: " +
+                String.format("%.2f", totalWaterNeed) + " liters per hectare";
 
-        tvResult.setText(result);
+        addHistoryItem(result);
+    }
+
+    private void addHistoryItem(String result) {
+        history.add(result);
+
+        // Creating a new layout to display the result with a delete button
+        LinearLayout historyItemLayout = new LinearLayout(this);
+        historyItemLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        TextView historyText = new TextView(this);
+        historyText.setText(result);
+        historyText.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+        historyItemLayout.addView(historyText);
+
+        // Create a delete button for this item
+        Button deleteButton = new Button(this);
+        deleteButton.setText("Delete");
+        deleteButton.setOnClickListener(v -> deleteHistoryItem(historyItemLayout, result));
+        historyItemLayout.addView(deleteButton);
+
+        llHistory.addView(historyItemLayout);
+    }
+
+    private void deleteHistoryItem(LinearLayout historyItemLayout, String result) {
+        // Remove the item from the history list and from the layout
+        history.remove(result);
+        llHistory.removeView(historyItemLayout);
+    }
+
+    private void clearHistory() {
+        // Clear all items in history
+        history.clear();
+        llHistory.removeAllViews();
     }
 }

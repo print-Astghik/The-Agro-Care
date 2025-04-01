@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,63 +7,68 @@
     tools:context=".card2">
 
     <EditText
-        android:background="@color/brown2"
-        android:id="@+id/landSizeInput"
+        android:id="@+id/etLandSize"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_height="56dp"
         android:hint="Enter land size (hectares)"
         android:inputType="numberDecimal"
-        android:textSize="26sp"
-        android:padding="10dp" />
+        android:padding="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp" />
 
     <Spinner
-        android:background="@color/brown2"
-        android:id="@+id/cropTypeSpinner"
+        android:id="@+id/spCropType"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/landSizeInput"
+        android:layout_height="56dp"
+        android:layout_below="@id/etLandSize"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp" />
+        android:padding="16dp" />
 
     <Spinner
-        android:background="@color/brown2"
-        android:id="@+id/weatherConditionSpinner"
+        android:id="@+id/spWeather"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/cropTypeSpinner"
+        android:layout_height="56dp"
+        android:layout_below="@id/spCropType"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp" />
+        android:padding="16dp" />
 
     <Button
-        android:background="@color/brown2"
-        android:id="@+id/calculateButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/weatherConditionSpinner"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:text="Calculate"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/resultText"
+        android:id="@+id/btnCalculate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/calculateButton"
-        android:layout_marginTop="30dp"
+        android:text="Calculate Water Need"
+        android:layout_below="@id/spWeather"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:text="Result will appear here"
-        android:textSize="16sp"
-        android:padding="10dp"
-        android:gravity="center" />
+        android:padding="16dp" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <Button
+        android:id="@+id/btnClearData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear Data"
+        android:layout_below="@id/btnCalculate"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:padding="16dp" />
+
+    <!-- History Layout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnClearData"
+        android:layout_marginTop="20dp">
+
+        <!-- History Layout -->
+        <LinearLayout
+            android:id="@+id/llHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+
+<com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

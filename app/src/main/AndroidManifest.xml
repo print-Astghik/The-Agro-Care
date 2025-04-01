@@ -2,7 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -14,6 +25,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InnerGrowth"
         tools:targetApi="31">
+
+
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA5D1z2-MPTqNiX6mIsI8cXbXYHZk-8u34" />
+        <meta-data
+            android:name="https://home.openweathermap.org/api_keys"
+            android:value="2b9c951f57d15d32dc24e6838ec72fec" />
+
+
         <activity
             android:name=".card6"
             android:exported="false" />
