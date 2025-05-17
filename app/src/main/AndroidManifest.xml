@@ -2,6 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
+
+
+
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
@@ -24,7 +39,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.InnerGrowth"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        >
+
+
 
 
 
@@ -34,6 +52,21 @@
         <meta-data
             android:name="https://home.openweathermap.org/api_keys"
             android:value="2b9c951f57d15d32dc24e6838ec72fec" />
+
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
 
 
         <activity
@@ -162,6 +195,8 @@
         <activity
             android:name=".SearchActivity"
             android:exported="false" />
+
+        <receiver android:name=".NotificationReceiver" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

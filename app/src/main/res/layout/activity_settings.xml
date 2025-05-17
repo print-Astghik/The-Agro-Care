@@ -1,82 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
+    
 
-
-    <EditText
-        android:background="@color/gray"
-        android:id="@+id/landSizeInput"
+    <androidx.appcompat.widget.SearchView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:hint="Enter land size (hectares)"
-        android:inputType="numberDecimal"
-        android:textSize="26sp"
-        android:padding="10dp" />
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:id="@+id/search"
+        app:iconifiedByDefault="false"
+        app:searchHintIcon="@null"
+        app:queryHint="Search..."
+        android:focusable="false"
+        app:closeIcon="@drawable/baseline_clear_24"
+        app:searchIcon="@drawable/search1"
+        android:background="@drawable/lavender_border"/>
 
-
-    <Spinner
-        android:id="@+id/cropTypeSpinner"
-        android:background="@color/brown2"
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/search"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/landSizeInput"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp" />
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerView"
+        android:scrollbars="vertical"/>
 
-
-    <Button
-        android:id="@+id/calculateButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cropTypeSpinner"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:text="Calculate"
-        android:textSize="18sp"
-        android:backgroundTint="@color/brown2"
-        android:textColor="@android:color/white" />
-
-
-    <TextView
-        android:id="@+id/resultText"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/calculateButton"
-        android:layout_marginTop="30dp"
-        android:layout_centerHorizontal="true"
-        android:text=""
-        android:textSize="16sp"
-        android:padding="10dp"
-        android:textColor="@android:color/black"
-        android:gravity="center" />
-
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/bottom_background"
-        android:elevation="2dp"
-        app:itemIconSize="30dp"
-        app:itemIconTint="@drawable/item_selector"
-        app:itemRippleColor="@android:color/transparent"
-        app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/bottom_menu" />
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="130dp"
+        android:backgroundTint="@color/lavender"
+        android:contentDescription="15"
+        android:src="@drawable/baseline_add_24"
+        app:tint="@color/white"
+        tools:ignore="RelativeOverlap" />
+
+
 
 </RelativeLayout>
-
-

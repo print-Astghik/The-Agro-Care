@@ -95,7 +95,7 @@
                             android:id="@+id/test2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@drawable/fertilizers" />
+                            android:background="@drawable/growtrack" />
 
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>

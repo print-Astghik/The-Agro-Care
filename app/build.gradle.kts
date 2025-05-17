@@ -95,6 +95,16 @@ dependencies {
 
     implementation ("androidx.fragment:fragment-ktx:1.5.7")
 
+    implementation ("com.squareup.okhttp3:okhttp:4.9.3")
+
+
+    implementation ("com.google.mlkit:image-labeling:17.0.7")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.3")
+
+    implementation ("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation ("com.google.code.gson:gson:2.8.6")
+
+
 
 
 

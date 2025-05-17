@@ -33,13 +33,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/lavender"/>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@drawable/uploadimg"
-                android:id="@+id/uploadImage"
-                android:layout_marginTop="10dp"
-                android:scaleType="fitXY"/>
+
 
             <EditText
                 android:layout_width="match_parent"
@@ -48,7 +42,7 @@
                 android:background="@drawable/lavender_border"
                 android:layout_marginTop="20dp"
                 android:padding="16dp"
-                android:hint="Enter topic name"
+                android:hint="Enter name"
                 android:gravity="start|center_vertical"
                 android:textColor="@color/lavender"/>
 
@@ -59,7 +53,7 @@
                 android:background="@drawable/lavender_border"
                 android:layout_marginTop="20dp"
                 android:padding="16dp"
-                android:hint="Enter description"
+                android:hint="Enter time"
                 android:gravity="start|center_vertical"
                 android:textColor="@color/lavender"/>
 
@@ -70,7 +64,7 @@
                 android:background="@drawable/lavender_border"
                 android:layout_marginTop="20dp"
                 android:padding="16dp"
-                android:hint="Enter language"
+                android:hint="Enter notes"
                 android:gravity="start|center_vertical"
                 android:textColor="@color/lavender"/>
 

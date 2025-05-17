@@ -33,6 +33,15 @@
                 android:inputType="numberDecimal"
                 android:imeOptions="actionDone" />
 
+            <EditText
+                android:id="@+id/quantityInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter quantity (e.g., 5)"
+                android:inputType="number"
+                android:textSize="20dp"/>
+
+
             <!-- Եղանակի տվյալներ -->
             <TextView
                 android:id="@+id/weatherText"

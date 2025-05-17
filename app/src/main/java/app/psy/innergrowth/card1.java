@@ -50,7 +50,14 @@ public class card1 extends AppCompatActivity {
         lvHistory = findViewById(R.id.lvHistory);
 
         // Մշակաբույսերի ցանկ
-        String[] crops = {"Barley", "Corn", "Potato", "Tomato"};
+        String[] crops = {
+                "Barley", "Corn", "Potato", "Tomato",
+                "Wheat", "Rice", "Lettuce", "Carrot",
+                "Cucumber", "Onion", "Garlic", "Peas",
+                "Apple", "Grapes", "Strawberry", "Banana",
+                "Spinach", "Cabbage"
+        };
+
         ArrayAdapter<String> cropAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, crops);
         spCropType.setAdapter(cropAdapter);
 
@@ -115,23 +122,112 @@ public class card1 extends AppCompatActivity {
                 phosphorus = 50;
                 potassium = 45;
                 break;
+            case "Wheat":
+                seedRate = 125;
+                nitrogen = 60;
+                phosphorus = 40;
+                potassium = 30;
+                break;
+            case "Rice":
+                seedRate = 100;
+                nitrogen = 90;
+                phosphorus = 50;
+                potassium = 40;
+                break;
+            case "Lettuce":
+                seedRate = 300;
+                nitrogen = 40;
+                phosphorus = 30;
+                potassium = 20;
+                break;
+            case "Carrot":
+                seedRate = 600;
+                nitrogen = 50;
+                phosphorus = 35;
+                potassium = 25;
+                break;
+            case "Cucumber":
+                seedRate = 500;
+                nitrogen = 80;
+                phosphorus = 60;
+                potassium = 50;
+                break;
+            case "Onion":
+                seedRate = 1000;
+                nitrogen = 60;
+                phosphorus = 40;
+                potassium = 30;
+                break;
+            case "Garlic":
+                seedRate = 1200;
+                nitrogen = 55;
+                phosphorus = 35;
+                potassium = 25;
+                break;
+            case "Peas":
+                seedRate = 200;
+                nitrogen = 30;
+                phosphorus = 20;
+                potassium = 15;
+                break;
+            case "Apple":
+                seedRate = 50;
+                nitrogen = 100;
+                phosphorus = 80;
+                potassium = 60;
+                break;
+            case "Grapes":
+                seedRate = 40;
+                nitrogen = 90;
+                phosphorus = 70;
+                potassium = 50;
+                break;
+            case "Strawberry":
+                seedRate = 300;
+                nitrogen = 50;
+                phosphorus = 40;
+                potassium = 30;
+                break;
+            case "Banana":
+                seedRate = 200;
+                nitrogen = 150;
+                phosphorus = 100;
+                potassium = 90;
+                break;
+            case "Spinach":
+                seedRate = 350;
+                nitrogen = 45;
+                phosphorus = 30;
+                potassium = 25;
+                break;
+            case "Cabbage":
+                seedRate = 400;
+                nitrogen = 60;
+                phosphorus = 45;
+                potassium = 35;
+                break;
         }
 
-        double weatherFactor = 1.0;
+
+        double weatherFactor;
         switch (selectedWeather) {
             case "Rainy":
-                weatherFactor = 1.2;
+                weatherFactor = 1.1; // Հողը խոնավ է, բայց ավելի քիչ պարարտանյութ է պետք
                 break;
             case "Dry":
-                weatherFactor = 1.5;
+                weatherFactor = 1.6; // Շատ չոր՝ պետք է շատ պարարտանյութ
                 break;
             case "Cloudy":
-                weatherFactor = 1.1;
+                weatherFactor = 1.2; // Լույսը քիչ է՝ բույսին ավելի շատ սնունդ է պետք
                 break;
             case "Stormy":
-                weatherFactor = 0.9;
+                weatherFactor = 0.8; // Բույսերը հաճախ տուժում են՝ քանակը նվազում է
+                break;
+            default:
+                weatherFactor = 1.0;
                 break;
         }
+
 
         double requiredSeeds = (landSize * seedRate) / 10000;
         double requiredNitrogen = ((landSize * nitrogen) / 10000) * weatherFactor;

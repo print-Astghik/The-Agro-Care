@@ -1,88 +1,104 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
-    tools:context=".card2">
+    android:padding="16dp">
 
-    <EditText
-        android:id="@+id/etLandSize"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:hint="Enter land size (hectares)"
-        android:inputType="numberDecimal"
-        android:padding="16dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp" />
-
-    <Spinner
-        android:id="@+id/spCropType"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@id/etLandSize"
-        android:layout_marginTop="20dp"
-        android:padding="16dp" />
-
-    <Spinner
-        android:id="@+id/spWeather"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@id/spCropType"
-        android:layout_marginTop="20dp"
-        android:padding="16dp" />
-
-    <Button
-        android:id="@+id/btnCalculate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Calculate Water Need"
-        android:layout_below="@id/spWeather"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:padding="16dp" />
-
-    <Button
-        android:id="@+id/btnClearData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Clear Data"
-        android:layout_below="@id/btnCalculate"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:padding="16dp" />
-
-    <!-- History Layout -->
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/linearLayoutRoot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btnClearData"
-        android:layout_marginTop="20dp">
+        android:orientation="vertical">
 
-        <!-- History Layout -->
+        <!-- Սերմնացանի օրը -->
+        <EditText
+            android:id="@+id/etSowingDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="📅 Select Sowing Date"
+            android:focusable="false"
+            android:clickable="true"
+            android:inputType="none"
+            android:layout_marginBottom="12dp"
+            android:textSize="25dp" />
+
+
+
+        <!-- Աճի տևողությունը -->
+        <EditText
+            android:id="@+id/etGrowthDays"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Growth Duration (days)"
+            android:inputType="number"
+            android:layout_marginBottom="12dp"
+            android:textSize="25sp" />
+
+        <!-- Հաշվարկման կոճակ -->
+        <Button
+            android:id="@+id/btnCalculate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Calculate"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Արդյունքների հատված -->
+        <TextView
+            android:id="@+id/tvMaturityDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📅 Estimated Maturity Date:"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvDaysPassed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⏳ Days Passed:"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvDaysLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📉 Days Left:"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvGrowthPercent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📊 Growth Percentage:"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="16dp"
+            />
+
+
+        <!-- Պատմության վերնագիր -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calculation History:"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Պատմության տարրերը կհավելվեն այստեղ -->
         <LinearLayout
             android:id="@+id/llHistory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
-    </ScrollView>
 
-
-<com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/bottom_background"
-        android:elevation="2dp"
-        app:itemIconSize="30dp"
-        app:itemIconTint="@drawable/item_selector"
-        app:itemRippleColor="@android:color/transparent"
-        app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/bottom_menu" />
-
-</RelativeLayout>
+    </LinearLayout>
+</ScrollView>

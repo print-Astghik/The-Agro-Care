@@ -1,21 +1,20 @@
 package app.psy.innergrowth;
 
-
-
 public class DataClass {
 
     private String dataTitle;
     private String dataDesc;
     private String dataLang;
-    private String dataImage;
     private String key;
 
-    public String getKey() {
-        return key;
+    public DataClass() {
+        // Դատարկ կոնստրուկտոր Firebase-ի համար
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public DataClass(String dataTitle, String dataDesc, String dataLang) {
+        this.dataTitle = dataTitle;
+        this.dataDesc = dataDesc;
+        this.dataLang = dataLang;
     }
 
     public String getDataTitle() {
@@ -30,17 +29,11 @@ public class DataClass {
         return dataLang;
     }
 
-    public String getDataImage() {
-        return dataImage;
+    public String getKey() {
+        return key;
     }
 
-    public DataClass(String dataTitle, String dataDesc, String dataLang, String dataImage) {
-        this.dataTitle = dataTitle;
-        this.dataDesc = dataDesc;
-        this.dataLang = dataLang;
-        this.dataImage = dataImage;
-    }
-    public DataClass(){
-
+    public void setKey(String key) {
+        this.key = key;
     }
 }

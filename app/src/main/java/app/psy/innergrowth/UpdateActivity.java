@@ -59,7 +59,7 @@ public class UpdateActivity extends AppCompatActivity {
         desc = updateDesc.getText().toString().trim();
         lang = updateLang.getText().toString();
 
-        DataClass dataClass = new DataClass(title, desc, lang, ""); // Նկարի URL-ն մնում է դատարկ
+        DataClass dataClass = new DataClass(title, desc, lang); // Նկարի URL-ն մնում է դատարկ
 
         databaseReference.setValue(dataClass).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

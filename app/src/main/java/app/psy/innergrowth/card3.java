@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import androidx.annotation.NonNull;
@@ -19,7 +20,12 @@ import java.util.Properties;
 import okhttp3.*;
 import org.json.*;
 
+
+
 public class  card3 extends AppCompatActivity implements OnMapReadyCallback {
+
+    private EditText quantityInput;
+
     private GoogleMap mMap;
     private Marker selectedMarker;
     private LatLng selectedLocation;
@@ -44,6 +50,9 @@ public class  card3 extends AppCompatActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card3);
         loadApiKey();
+
+        quantityInput = findViewById(R.id.quantityInput);
+
 
         selectDateButton = findViewById(R.id.selectDateButton);
         selectTimeButton = findViewById(R.id.selectTimeButton);
@@ -195,8 +204,12 @@ public class  card3 extends AppCompatActivity implements OnMapReadyCallback {
         databaseReference.child(key).setValue(record);
 
         lastWateredText.setText("Last Watered: " + lastWatered);
+
+        // Եղանակի տվյալները ստանալուց հետո `fetchWeatherAndCalculateNextWatering()` կկանչի `calculateNextWatering()`
         fetchWeatherAndCalculateNextWatering();
     }
+
+
 
 
     private void fetchWeatherAndCalculateNextWatering() {
@@ -208,43 +221,98 @@ public class  card3 extends AppCompatActivity implements OnMapReadyCallback {
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 runOnUiThread(() -> Toast.makeText(card3.this, "Failed to fetch weather data", Toast.LENGTH_SHORT).show());
             }
+
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (!response.isSuccessful()) return;
                 try {
+                    assert response.body() != null;
                     JSONObject json = new JSONObject(response.body().string());
                     double temp = json.getJSONObject("main").getDouble("temp");
                     int humidity = json.getJSONObject("main").getInt("humidity");
-                    runOnUiThread(() -> calculateNextWatering(temp, humidity));
+
+                    boolean isRaining = false;
+                    JSONArray weatherArray = json.getJSONArray("weather");
+                    for (int i = 0; i < weatherArray.length(); i++) {
+                        JSONObject weatherObject = weatherArray.getJSONObject(i);
+                        String mainWeather = weatherObject.getString("main");
+                        if (mainWeather.equalsIgnoreCase("Rain")) {
+                            isRaining = true;
+                            break;
+                        }
+                    }
+
+                    Log.d("WeatherData", "Temp: " + temp + ", Humidity: " + humidity + ", IsRaining: " + isRaining);
+
+                    boolean finalIsRaining = isRaining;
+                    runOnUiThread(() -> calculateNextWatering(temp, humidity, finalIsRaining));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
+
         });
     }
 
-    private void calculateNextWatering(double temp, int humidity) {
-        int days = 0;
-        String nextTime = "08:00 AM";
 
-        // Բույսի տեսակի համապատասխան ջրման ժամանակը հաշվելու տրամաբանությունը
-        if (selectedPlantType.equals("Tomato")) {
-            // Թոմատի համար ջրելու օրերը
-            days = (temp > 30) ? 1 : (temp < 15) ? 3 : 2;
-        } else if (selectedPlantType.equals("Cucumber")) {
-            // Կերոսինի համար ջրելու օրերը
-            days = (temp > 30) ? 1 : 2;
-        } else if (selectedPlantType.equals("Lettuce")) {
-            days = (temp > 25) ? 1 : 2;
-        } else if (selectedPlantType.equals("Pepper")) {
-            days = (temp > 25) ? 1 : (temp < 15) ? 3 : 2;
-        } else if (selectedPlantType.equals("Strawberry")) {
-            days = (temp > 28) ? 1 : 2;
+    private void calculateNextWatering(double temp, int humidity, boolean isRaining) {
+        int days = 0;
+        String nextTime = String.format("%02d:%02d", selectedHour, selectedMinute);
+        double waterAmount = Double.parseDouble(waterAmountInput.getText().toString().trim());
+
+        switch (selectedPlantType) {
+            case "Tomato":
+                days = (temp > 30) ? 1 : (temp < 15) ? 3 : 2;
+                if (humidity > 70) days++;
+                if (isRaining) days += 2;
+                if (waterAmount > 2) days++;
+                break;
+            case "Cucumber":
+                days = (temp > 30) ? 1 : 2;
+                if (humidity > 75) days++;
+                if (isRaining) days += 2;
+                if (waterAmount > 2.5) days++;
+                break;
+            case "Lettuce":
+                days = (temp > 25) ? 1 : 2;
+                if (humidity > 65) days++;
+                if (isRaining) days += 1;
+                if (waterAmount > 1.5) days++;
+                break;
+            case "Pepper":
+                days = (temp > 28) ? 1 : 2;
+                if (humidity > 60) days++;
+                if (isRaining) days += 2;
+                if (waterAmount > 2) days++;
+                break;
+            case "Strawberry":
+                days = (temp > 27) ? 1 : 2;
+                if (humidity > 70) days++;
+                if (isRaining) days += 2;
+                if (waterAmount > 1.5) days++;
+                break;
         }
 
-        // Թեքվող ջրման ժամանակի ցուցադրում
-        nextWateringText.setText("Next watering in " + days + " days at " + nextTime);
+        // Հաշվում ենք հաջորդ ջրման օրը
+        Calendar nextWatering = Calendar.getInstance();
+        nextWatering.set(selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute);
+        nextWatering.add(Calendar.DAY_OF_MONTH, days);
+
+        String nextWateringDate = String.format(Locale.getDefault(), "Next Watering: %02d/%02d/%04d %s",
+                nextWatering.get(Calendar.DAY_OF_MONTH),
+                nextWatering.get(Calendar.MONTH) + 1,
+                nextWatering.get(Calendar.YEAR),
+                nextTime
+        );
+
+        nextWateringText.setText(nextWateringDate);
     }
+
+
+
+
+
+
 
 
     private void createNotificationChannel() {
