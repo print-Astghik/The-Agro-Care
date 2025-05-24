@@ -70,14 +70,9 @@
 
 
         <activity
-            android:name=".card6"
-            android:exported="false" />
-        <activity
             android:name=".card5"
             android:exported="false" />
-        <activity
-            android:name=".card4"
-            android:exported="false" />
+
         <activity
             android:name=".card3"
             android:exported="false" />

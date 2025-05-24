@@ -1,4 +1,77 @@
 <resources>
     <string name="app_name">The Agro Care</string>
+    <string name="grains_image_desc">Grains image</string>
+    <string name="vegetables_image_desc">Vegetables image</string>
+    <string name="fruits_image_desc">Fruits image</string>
+    <string name="herbs_image_desc">Herbs image</string>
+    <string name="oilcrops_image_desc">Oil crops image</string>
+    <string name="legumes_image_desc">Legumes image</string>
+    <string name="grains_image">Grains image</string>
+    <string name="grains_label">Grains</string>
+
+    <string name="vegetables_image">Vegetables image</string>
+    <string name="vegetables_label">Vegetables</string>
+
+    <string name="fruits_image">Fruits image</string>
+    <string name="fruits_label">Fruits</string>
+
+    <string name="herbs_image">Herbs image</string>
+    <string name="herbs_label">Herbs</string>
+
+    <string name="oilcrops_image">Oil crops image</string>
+    <string name="oilcrops_label">Oil crops</string>
+
+    <string name="legumes_image">Legumes image</string>
+    <string name="legumes_label">Legumes</string>
+    <string name="rice_image">Rice field image</string>
+    <string name="wheat_image">Wheat crop image</string>
+
+    <string name="corn_image">Corn field image</string>
+
+    <!-- Labels for each card -->
+    <string name="rice_label">Rice</string>
+    <string name="wheat_label">Wheat</string>
+
+    <string name="corn_label">Corn</string>
+
+    <string name="potato_image">Potato plant</string>
+    <string name="tomato_image">Tomato plant</string>
+    <string name="cucumber_image">Cucumber plant</string>
+    <string name="carrot_image">Carrot plant</string>
+    <string name="onion_image">Onion plant</string>
+
+    <!-- Labels (optional if you show text) -->
+    <string name="potato_label">Potato</string>
+    <string name="tomato_label">Tomato</string>
+    <string name="cucumber_label">Cucumber</string>
+    <string name="carrot_label">Carrot</string>
+    <string name="onion_label">Onion</string>
+
+    <string name="barley_image">Barley</string>
+
+    <string name="fertilizers_image">Fertilizers image</string>
+    <string name="fertilizers_image_2">Fertilizers image 2</string>
+    <string name="growtrack_image">Grow Track image</string>
+    <string name="waterlevel_image">Water Level image</string>
+
+
+
+    <!-- test5 activity -->
+    <string name="sunflower_image">Sunflower</string>
+    <string name="soybean_image">Soybean </string>
+
+    <!-- test6 activity -->
+    <string name="bean_image">Bean image</string>
+    <string name="pea_image">Pea image</string>
+
+    <string name="apple_image">Apple</string>
+    <string name="pear_image">Pear</string>
+    <string name="peach_image">Peach</string>
+    <string name="banana_image">Banana</string>
+
+    <string name="parsley_image">Parsley</string>
+    <string name="dill_image">Dill</string>
+    <string name="greenonion_image">Green Onion</string>
+
     <string name="google_maps_key" templateMergeStrategy="preserve">2b9c951f57d15d32dc24e6838ec72fec</string>
 </resources>

@@ -1,166 +1,159 @@
 package app.psy.innergrowth;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import android.app.AlarmManager;
+import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
+import java.util.Calendar;
 
 public class test24 extends AppCompatActivity {
 
-    private static final String BASE_URL_OPENFARM = "https://openfarm.cc/api/v1/crops/";
-    private TextView plantInfoTextView;
-    private DatabaseReference databaseReference;
+    private static final String CHANNEL_ID = "my_channel";
+    private static final int NOTIFICATION_REQUEST_CODE = 100;
+
+    private EditText intervalDaysEditText;
+    private TextView selectedDateTimeText;
+    private TextView notificationStatusText;
+
+    private int selectedHour = 9;
+    private int selectedMinute = 0;
+    private int selectedYear, selectedMonth, selectedDay;
+
+    private boolean isNotificationOn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test24);
 
-        // UI տարրը և Firebase-ի հղումը
-        plantInfoTextView = findViewById(R.id.plantinfo);
-        databaseReference = FirebaseDatabase.getInstance().getReference("plants");
+        intervalDaysEditText = findViewById(R.id.interval_days_edit_text);
+        selectedDateTimeText = findViewById(R.id.selected_datetime_text);
+        notificationStatusText = findViewById(R.id.notification_status_text);
 
-        plantInfoTextView.setText("Fetching plant info from OpenFarm...");
+        // Set default date to today
+        Calendar now = Calendar.getInstance();
+        selectedYear = now.get(Calendar.YEAR);
+        selectedMonth = now.get(Calendar.MONTH);
+        selectedDay = now.get(Calendar.DAY_OF_MONTH);
 
-        // Նոր թել՝ OpenFarm-ից տվյալներ բերելու համար
-        new Thread(() -> {
-            try {
-                String openFarmResponse = getOpenFarmData("carrot");
-                Log.d("OPENFARM_RESPONSE", openFarmResponse);
-                runOnUiThread(() -> processOpenFarmData(openFarmResponse));
-            } catch (IOException e) {
-                Log.e("API_ERROR", "Error fetching OpenFarm data", e);
-                runOnUiThread(() -> plantInfoTextView.setText("Error fetching OpenFarm data."));
-            }
-        }).start();
+        updateDateTimeText();
+        createNotificationChannel();
     }
 
-    // Բերում է բույսի տվյալները ըստ անունի
-    private String getOpenFarmData(String plantName) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-        String url = BASE_URL_OPENFARM + plantName;
+    public void pickTime(View view) {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                (TimePicker timePicker, int hourOfDay, int minute) -> {
+                    selectedHour = hourOfDay;
+                    selectedMinute = minute;
+                    updateDateTimeText();
+                }, selectedHour, selectedMinute, true);
+        timePickerDialog.show();
+    }
 
-        Request request = new Request.Builder().url(url).build();
+    public void pickDate(View view) {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                (DatePicker view1, int year, int month, int dayOfMonth) -> {
+                    selectedYear = year;
+                    selectedMonth = month;
+                    selectedDay = dayOfMonth;
+                    updateDateTimeText();
+                }, selectedYear, selectedMonth, selectedDay);
+        datePickerDialog.show();
+    }
 
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) {
-                throw new IOException("Request failed: " + response);
-            }
+    private void updateDateTimeText() {
+        String formatted = String.format("Selected date and time: %04d-%02d-%02d %02d:%02d",
+                selectedYear, selectedMonth + 1, selectedDay, selectedHour, selectedMinute);
+        selectedDateTimeText.setText(formatted);
+    }
 
-            return response.body().string();
+    public void createNotification(View view) {
+        String intervalText = intervalDaysEditText.getText().toString().trim();
+        if (intervalText.isEmpty()) {
+            Toast.makeText(this, "Please enter interval days", Toast.LENGTH_SHORT).show();
+            return;
         }
-    }
 
-    // Մշակում է ստացված JSON պատասխանը
-    private void processOpenFarmData(String jsonResponse) {
-        try {
-            JSONObject jsonObject = new JSONObject(jsonResponse);
-            JSONObject data = jsonObject.getJSONObject("data");
-            JSONObject attributes = data.getJSONObject("attributes");
+        int intervalDays = Integer.parseInt(intervalText);
+        long repeatIntervalMillis = intervalDays * 24L * 60L * 60L * 1000L;
 
-            String name = attributes.optString("name", "Unknown");
-            String description = attributes.optString("description", "No description");
-            String sunRequirements = attributes.optString("sun_requirements", "Not specified");
-            String watering = attributes.optString("watering", "Not specified");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, selectedYear);
+        calendar.set(Calendar.MONTH, selectedMonth);
+        calendar.set(Calendar.DAY_OF_MONTH, selectedDay);
+        calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
+        calendar.set(Calendar.MINUTE, selectedMinute);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
 
-            String displayText = "🌱 Plant: " + name +
-                    "\n🌞 Sun: " + sunRequirements +
-                    "\n💧 Watering: " + watering +
-                    "\n📖 Description: " + description;
-
-            plantInfoTextView.setText(displayText);
-
-            databaseReference.child(name).child("sunRequirements").setValue(sunRequirements);
-            databaseReference.child(name).child("watering").setValue(watering);
-            databaseReference.child(name).child("description").setValue(description);
-
-            // ✅ Ստանում ենք guide ID-ն
-            JSONObject relationships = data.optJSONObject("relationships");
-            if (relationships != null) {
-                JSONObject cropGuides = relationships.optJSONObject("crop_guides");
-                if (cropGuides != null) {
-                    JSONArray guidesArray = cropGuides.optJSONArray("data");
-                    if (guidesArray != null && guidesArray.length() > 0) {
-                        String guideId = guidesArray.getJSONObject(0).optString("id", null);
-
-                        if (guideId != null) {
-                            new Thread(() -> {
-                                try {
-                                    String guideResponse = getCropGuide(guideId);
-                                    Log.d("GUIDE_RESPONSE", guideResponse);
-                                    runOnUiThread(() -> processCropGuide(guideResponse, name));
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                    runOnUiThread(() ->
-                                            plantInfoTextView.append("\nError fetching crop guide."));
-                                }
-                            }).start();
-                        }
-                    }
-                }
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            plantInfoTextView.setText("Error processing OpenFarm data.");
+        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+            Toast.makeText(this, "Selected time is in the past. Please select a future time.", Toast.LENGTH_LONG).show();
+            return;
         }
+
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                NOTIFICATION_REQUEST_CODE,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                repeatIntervalMillis,
+                pendingIntent
+        );
+
+        isNotificationOn = true;
+        notificationStatusText.setText("Notification is ON ✅");
+        Toast.makeText(this, "Notification created!", Toast.LENGTH_SHORT).show();
     }
 
+    public void stopNotification(View view) {
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                NOTIFICATION_REQUEST_CODE,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
 
-    // Բերում է կոնկրետ guide տվյալները
-    private String getCropGuide(String guideId) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-        String url = "https://openfarm.cc/api/v1/guides/" + guideId;
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
 
-        Request request = new Request.Builder().url(url).build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) {
-                throw new IOException("Guide request failed: " + response);
-            }
-            return response.body().string();
-        }
+        isNotificationOn = false;
+        notificationStatusText.setText("Notification is OFF ❌");
+        Toast.makeText(this, "Notification stopped.", Toast.LENGTH_SHORT).show();
     }
 
-    // Մշակում է guide-ի պատասխանը
-    private void processCropGuide(String jsonResponse, String plantName) {
-        try {
-            JSONObject jsonObject = new JSONObject(jsonResponse);
-            JSONObject attributes = jsonObject.getJSONObject("data").getJSONObject("attributes");
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "My Channel";
+            String description = "Channel for InnerGrowth reminders";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
 
-            String overview = attributes.optString("overview", "No overview provided.");
-            JSONArray practices = attributes.optJSONArray("practices");
-
-            StringBuilder guideText = new StringBuilder("\n📝 Guide Overview: " + overview + "\n");
-
-            if (practices != null) {
-                for (int i = 0; i < practices.length(); i++) {
-                    guideText.append("👉 Step ").append(i + 1).append(": ").append(practices.getString(i)).append("\n");
-                }
-            }
-
-            // Ցուցադրում և պահպանում Firebase-ում
-            plantInfoTextView.append(guideText.toString());
-            databaseReference.child(plantName).child("guideOverview").setValue(overview);
-            databaseReference.child(plantName).child("guideSteps").setValue(guideText.toString());
-
-        } catch (JSONException e) {
-            Log.e("GUIDE_PARSE_ERROR", "Error processing crop guide", e);
-            plantInfoTextView.append("\nError processing crop guide.");
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 }

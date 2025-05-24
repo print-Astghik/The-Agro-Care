@@ -1,6 +1,5 @@
 package app.psy.innergrowth;
 
-
 import static app.psy.innergrowth.R.id.search;
 
 import androidx.annotation.NonNull;
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -37,12 +37,17 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test11);
+        setContentView(R.layout.activity_settings);
 
         recyclerView = findViewById(R.id.recyclerView);
         fab = findViewById(R.id.fab);
-        searchView = findViewById(search);
-        searchView.clearFocus();
+        searchView = findViewById(search); // Make sure R.id.search exists in your layout XML
+
+        if (searchView != null) {
+            searchView.clearFocus();
+        } else {
+            Log.e("SettingsActivity", "SearchView is null. Please check if the ID is correct.");
+        }
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(SettingsActivity.this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -54,22 +59,20 @@ public class SettingsActivity extends AppCompatActivity {
         dialog.show();
 
         dataList = new ArrayList<>();
-
         adapter = new MyAdapter(SettingsActivity.this, dataList);
         recyclerView.setAdapter(adapter);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Android Tutorials");
-        dialog.show();
         eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dataList.clear();
-                for (DataSnapshot itemSnapshot: snapshot.getChildren()){
+                for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
                     DataClass dataClass = itemSnapshot.getValue(DataClass.class);
-
-                    dataClass.setKey(itemSnapshot.getKey());
-
-                    dataList.add(dataClass);
+                    if (dataClass != null) {
+                        dataClass.setKey(itemSnapshot.getKey());
+                        dataList.add(dataClass);
+                    }
                 }
                 adapter.notifyDataSetChanged();
                 dialog.dismiss();
@@ -94,28 +97,46 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SettingsActivity.this, UploadActivity.class);
-                startActivity(intent);
-            }
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(SettingsActivity.this, UploadActivity.class);
+            startActivity(intent);
         });
 
+        // ✅ Bottom navigation inside onCreate
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_settings);
 
-
-
-
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.bottom_home) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
+                return true;
+            } else if (itemId == R.id.bottom_search) {
+                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
+                return true;
+            } else if (itemId == R.id.bottom_settings) {
+                return true;
+            } else if (itemId == R.id.bottom_profile) {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
+                return true;
+            }
+            return false;
+        });
     }
-    public void searchList(String text){
+
+    public void searchList(String text) {
         ArrayList<DataClass> searchList = new ArrayList<>();
-        for (DataClass dataClass: dataList){
-            if (dataClass.getDataTitle().toLowerCase().contains(text.toLowerCase())){
+        for (DataClass dataClass : dataList) {
+            if (dataClass.getDataTitle().toLowerCase().contains(text.toLowerCase())) {
                 searchList.add(dataClass);
             }
         }
         adapter.searchDataList(searchList);
     }
-
-
 }

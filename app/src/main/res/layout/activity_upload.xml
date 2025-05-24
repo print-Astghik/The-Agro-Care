@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".UploadActivity">
+    tools:context=".UploadActivity"
+    android:background="@color/almond_silk">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -31,7 +32,7 @@
                 android:text="Upload Data"
                 android:textSize="30sp"
                 android:textAlignment="center"
-                android:textColor="@color/lavender"/>
+                android:textColor="@color/espresso_depth"/>
 
 
 
@@ -44,7 +45,7 @@
                 android:padding="16dp"
                 android:hint="Enter name"
                 android:gravity="start|center_vertical"
-                android:textColor="@color/lavender"/>
+                android:textColor="@color/espresso_depth"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -55,7 +56,7 @@
                 android:padding="16dp"
                 android:hint="Enter time"
                 android:gravity="start|center_vertical"
-                android:textColor="@color/lavender"/>
+                android:textColor="@color/espresso_depth"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -69,6 +70,7 @@
                 android:textColor="@color/lavender"/>
 
             <Button
+                android:backgroundTint="@color/espresso_depth"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Save"

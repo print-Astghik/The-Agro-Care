@@ -5,7 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsActivity">
+    tools:context=".SettingsActivity"
+    android:background="@color/ash_cloud">
+
+
     
 
     <androidx.appcompat.widget.SearchView
@@ -21,7 +24,7 @@
         android:focusable="false"
         app:closeIcon="@drawable/baseline_clear_24"
         app:searchIcon="@drawable/search1"
-        android:background="@drawable/lavender_border"/>
+        android:background="@color/brown2"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="10dp"
@@ -39,11 +42,28 @@
         android:layout_alignParentBottom="true"
         android:layout_marginRight="40dp"
         android:layout_marginBottom="130dp"
-        android:backgroundTint="@color/lavender"
+        android:backgroundTint="@color/espresso_depth"
         android:contentDescription="15"
         android:src="@drawable/baseline_add_24"
         app:tint="@color/white"
         tools:ignore="RelativeOverlap" />
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bottom_background"
+        android:elevation="4dp"
+        app:itemIconSize="30dp"
+        app:itemIconTint="@drawable/item_selector"
+        app:itemRippleColor="@android:color/transparent"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/bottom_menu" />
 
 
 

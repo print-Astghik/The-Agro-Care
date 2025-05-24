@@ -1,193 +1,159 @@
 package app.psy.innergrowth;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class test31 extends AppCompatActivity {
-    private TextView locationText, weatherText, lastWateredText, nextWateringText;
-    private Button logWateringButton;
-    private LineChart tempChart, humidityChart;
-    private ListView wateringHistoryList;
-    private ArrayAdapter<String> adapter;
-    private ArrayList<String> wateringHistory;
 
-    private DatabaseReference databaseReference;
-    private FusedLocationProviderClient fusedLocationClient;
-    private static final String CHANNEL_ID = "WateringReminder";
-    private double temperature = 25, humidity = 50;
+    private static final String CHANNEL_ID = "my_channel";
+    private static final int NOTIFICATION_REQUEST_CODE = 100;
+
+    private EditText intervalDaysEditText;
+    private TextView selectedDateTimeText;
+    private TextView notificationStatusText;
+
+    private int selectedHour = 9;
+    private int selectedMinute = 0;
+    private int selectedYear, selectedMonth, selectedDay;
+
+    private boolean isNotificationOn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test31);
 
-        locationText = findViewById(R.id.locationText);
-        weatherText = findViewById(R.id.weatherText);
-        lastWateredText = findViewById(R.id.lastWateredText);
-        nextWateringText = findViewById(R.id.nextWateringText);
-        logWateringButton = findViewById(R.id.logWateringButton);
-        tempChart = findViewById(R.id.tempChart);
-        humidityChart = findViewById(R.id.humidityChart);
-        wateringHistoryList = findViewById(R.id.wateringHistoryList);
+        intervalDaysEditText = findViewById(R.id.interval_days_edit_text);
+        selectedDateTimeText = findViewById(R.id.selected_datetime_text);
+        notificationStatusText = findViewById(R.id.notification_status_text);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("WateringHistory");
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        // Set default date to today
+        Calendar now = Calendar.getInstance();
+        selectedYear = now.get(Calendar.YEAR);
+        selectedMonth = now.get(Calendar.MONTH);
+        selectedDay = now.get(Calendar.DAY_OF_MONTH);
 
-        wateringHistory = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, wateringHistory);
-        wateringHistoryList.setAdapter(adapter);
-
-        logWateringButton.setOnClickListener(v -> logWatering());
-
-        getLocation();
+        updateDateTimeText();
         createNotificationChannel();
-        loadWateringHistory();
     }
 
-    private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            return;
-        }
-
-        fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
-            if (location != null) {
-                double latitude = location.getLatitude();
-                double longitude = location.getLongitude();
-                locationText.setText("Lat: " + latitude + ", Lon: " + longitude);
-                getWeather(latitude, longitude);
-            } else {
-                locationText.setText("Could not get location");
-            }
-        });
+    public void pickTime(View view) {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                (TimePicker timePicker, int hourOfDay, int minute) -> {
+                    selectedHour = hourOfDay;
+                    selectedMinute = minute;
+                    updateDateTimeText();
+                }, selectedHour, selectedMinute, true);
+        timePickerDialog.show();
     }
 
-    private void updateCharts() {
-
-        ArrayList<Entry> tempEntries = new ArrayList<>();
-        tempEntries.add(new Entry(0, (float) temperature));
-        LineDataSet tempDataSet = new LineDataSet(tempEntries, "Temperature");
-        tempDataSet.setColor(android.graphics.Color.RED);
-        tempDataSet.setValueTextSize(12f);
-        tempChart.setData(new LineData(tempDataSet));
-        tempChart.invalidate();
-
-
-        ArrayList<Entry> humidityEntries = new ArrayList<>();
-        humidityEntries.add(new Entry(0, (float) humidity));
-        LineDataSet humidityDataSet = new LineDataSet(humidityEntries, "Humidity");
-        humidityDataSet.setColor(android.graphics.Color.BLUE);
-        humidityDataSet.setValueTextSize(12f);
-        humidityChart.setData(new LineData(humidityDataSet));
-        humidityChart.invalidate();
-    }
-
-
-    private void getWeather(double latitude, double longitude) {
-        String apiKey = "2b9c951f57d15d32dc24e6838ec72fec";
-        String url = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&units=metric&appid=" + apiKey;
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                response -> {
-                    try {
-                        temperature = response.getJSONObject("main").getDouble("temp");
-                        humidity = response.getJSONObject("main").getDouble("humidity");
-                        weatherText.setText("Temp: " + temperature + "°C, Hum: " + humidity + "%");
-                        updateCharts();
-                    } catch (JSONException e) {
-                        weatherText.setText("Error parsing weather data");
-                    }
-                },
-                error -> weatherText.setText("Weather data unavailable"));
-
-        queue.add(jsonObjectRequest);
-    }
-
-    private void logWatering() {
-        Calendar calendar = Calendar.getInstance();
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, day) -> {
-            String selectedDate = year + "-" + (month + 1) + "-" + day;
-
-            TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view1, hour, minute) -> {
-                String selectedTime = hour + ":" + (minute < 10 ? "0" + minute : minute);
-                String fullWateringInfo = selectedDate + " " + selectedTime;
-
-                lastWateredText.setText("Last watered: " + fullWateringInfo);
-                databaseReference.push().setValue(fullWateringInfo);
-                calculateNextWatering();
-
-            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
-
-            timePickerDialog.show();
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-
+    public void pickDate(View view) {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                (DatePicker view1, int year, int month, int dayOfMonth) -> {
+                    selectedYear = year;
+                    selectedMonth = month;
+                    selectedDay = dayOfMonth;
+                    updateDateTimeText();
+                }, selectedYear, selectedMonth, selectedDay);
         datePickerDialog.show();
     }
 
-    private void calculateNextWatering() {
-        int wateringInterval = (temperature > 30) ? 1 :
-                (temperature > 20) ? 2 :
-                        (humidity < 40) ? 3 : 5;
-
-        Calendar nextWatering = Calendar.getInstance();
-        nextWatering.add(Calendar.DAY_OF_MONTH, wateringInterval);
-
-        runOnUiThread(() -> nextWateringText.setText("Next watering: " + nextWatering.get(Calendar.YEAR) + "-" +
-                (nextWatering.get(Calendar.MONTH) + 1) + "-" + nextWatering.get(Calendar.DAY_OF_MONTH)));
+    private void updateDateTimeText() {
+        String formatted = String.format("Selected date and time: %04d-%02d-%02d %02d:%02d",
+                selectedYear, selectedMonth + 1, selectedDay, selectedHour, selectedMinute);
+        selectedDateTimeText.setText(formatted);
     }
 
-    private void loadWateringHistory() {
-        databaseReference.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                wateringHistory.clear();
-                for (DataSnapshot snapshot : task.getResult().getChildren()) {
-                    String date = snapshot.getValue(String.class);
-                    wateringHistory.add(date);
-                }
-                adapter.notifyDataSetChanged();
-            }
-        });
+    public void createNotification(View view) {
+        String intervalText = intervalDaysEditText.getText().toString().trim();
+        if (intervalText.isEmpty()) {
+            Toast.makeText(this, "Please enter interval days", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int intervalDays = Integer.parseInt(intervalText);
+        long repeatIntervalMillis = intervalDays * 24L * 60L * 60L * 1000L;
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, selectedYear);
+        calendar.set(Calendar.MONTH, selectedMonth);
+        calendar.set(Calendar.DAY_OF_MONTH, selectedDay);
+        calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
+        calendar.set(Calendar.MINUTE, selectedMinute);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+            Toast.makeText(this, "Selected time is in the past. Please select a future time.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                NOTIFICATION_REQUEST_CODE,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                repeatIntervalMillis,
+                pendingIntent
+        );
+
+        isNotificationOn = true;
+        notificationStatusText.setText("Notification is ON ✅");
+        Toast.makeText(this, "Notification created!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void stopNotification(View view) {
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                NOTIFICATION_REQUEST_CODE,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
+
+        isNotificationOn = false;
+        notificationStatusText.setText("Notification is OFF ❌");
+        Toast.makeText(this, "Notification stopped.", Toast.LENGTH_SHORT).show();
     }
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Watering Notifications", NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
+            CharSequence name = "My Channel";
+            String description = "Channel for InnerGrowth reminders";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 }

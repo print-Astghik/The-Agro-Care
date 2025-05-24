@@ -13,13 +13,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/almond_silk">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:id="@+id/recImage"
-            android:src="@drawable/uploadimg"
+            android:src="@mipmap/ic_launcher"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
@@ -31,7 +32,7 @@
             android:layout_height="30dp"
             android:id="@+id/recTitle"
             android:text="Title"
-            android:textColor="@color/lavender"
+            android:textColor="@color/brown2"
             android:textSize="20sp"
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
@@ -46,7 +47,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="90dp"
             android:textAlignment="center"
-            android:textColor="@color/lavender"
+            android:textColor="@color/brown2"
             android:textSize="16sp"/>
 
         <TextView
@@ -54,7 +55,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/recDesc"
             android:text="desc"
-            android:textColor="@color/lavender"
+            android:textColor="@color/brown2"
             android:textSize="14sp"
             android:layout_toEndOf="@id/recImage"
             android:layout_below="@id/recTitle"

@@ -18,9 +18,9 @@ public class SearchActivity extends AppCompatActivity {
     CardView Card1;
     CardView Card2;
     CardView Card3;
-    CardView Card4;
+
     CardView Card5;
-    CardView Card6;
+
 
 
     @Override
@@ -55,14 +55,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        Card4 = findViewById(R.id.Card4);
-        Card4.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SearchActivity.this, card4.class);
-                startActivity(intent);
-            }
-        });
+
 
         Card5 = findViewById(R.id.Card5);
         Card5.setOnClickListener(new View.OnClickListener(){
@@ -73,14 +66,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        Card6 = findViewById(R.id.Card6);
-        Card6.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SearchActivity.this, card6.class);
-                startActivity(intent);
-            }
-        });
+
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setSelectedItemId(R.id.bottom_search);

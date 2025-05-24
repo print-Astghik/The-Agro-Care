@@ -14,7 +14,13 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // Intent to open MainActivity when notification is clicked
+        // Ստանում ենք բույսի անունը
+        String plantName = intent.getStringExtra("plant_name");
+        if (plantName == null || plantName.isEmpty()) {
+            plantName = "your plant";
+        }
+
+        // Intent to open test12 activity when notification is clicked
         Intent notificationIntent = new Intent(context, test12.class);
         PendingIntent contentIntent = PendingIntent.getActivity(
                 context,
@@ -30,9 +36,9 @@ public class NotificationReceiver extends BroadcastReceiver {
             builder = new Notification.Builder(context);
         }
 
-        builder.setSmallIcon(R.drawable.notification) // Փոխիր քեզ անհրաժեշտ իկոնայով
+        builder.setSmallIcon(R.drawable.notification) // Փոխիր ըստ անհրաժեշտության
                 .setContentTitle("Reminder")
-                .setContentText("Time for your scheduled notification!")
+                .setContentText("Time to water: " + plantName)
                 .setContentIntent(contentIntent)
                 .setAutoCancel(true);
 

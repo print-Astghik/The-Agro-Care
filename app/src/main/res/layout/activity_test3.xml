@@ -1,15 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="@color/brown2"
     tools:context=".test3">
 
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavigation"
+        android:padding="10dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Card 1 - Apple -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/test31Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp">
+
+                <ImageView
+                    android:id="@+id/test31"
+                    android:layout_width="match_parent"
+                    android:layout_height="175dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/apple"
+                    android:contentDescription="@string/apple_image" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Card 2 - Pear -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/test32Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp">
+
+                <ImageView
+                    android:id="@+id/test32"
+                    android:layout_width="match_parent"
+                    android:layout_height="175dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/pear"
+                    android:contentDescription="@string/pear_image" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Card 3 - Peach -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/test33Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp">
+
+                <ImageView
+                    android:id="@+id/test33"
+                    android:layout_width="match_parent"
+                    android:layout_height="175dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/peach"
+                    android:contentDescription="@string/peach_image" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Card 4 - Banana -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/test34Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp">
+
+                <ImageView
+                    android:id="@+id/test34"
+                    android:layout_width="match_parent"
+                    android:layout_height="175dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/banana"
+                    android:contentDescription="@string/banana_image" />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
@@ -25,138 +110,4 @@
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_menu" />
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-        <!-- Row1 -->
-        <LinearLayout
-            android:id="@+id/row4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="1dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/test31Card"
-                    android:layout_width="175dp"
-                    android:layout_height="175dp"
-                    android:layout_margin="10dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="20dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-
-                        <ImageView
-                            android:id="@+id/test31"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/apple"/>
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/test32Card"
-                    android:layout_width="175dp"
-                    android:layout_height="175dp"
-                    android:layout_margin="10dp"
-
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="20dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-
-                        <ImageView
-                            android:id="@+id/test32"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/pear" />
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/test33Card"
-                    android:layout_width="175dp"
-                    android:layout_height="175dp"
-                    android:layout_margin="10dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="20dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-
-                        <ImageView
-                            android:id="@+id/test33"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/peach" />
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/test34Card"
-                    android:layout_width="match_parent"
-                    android:layout_height="175dp"
-                    android:layout_margin="10dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="20dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-
-                        <ImageView
-                            android:id="@+id/test34"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/banana" />
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-
-
-
-
-
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
 </RelativeLayout>

@@ -3,7 +3,8 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/background_beige">
 
     <LinearLayout
         android:id="@+id/linearLayoutRoot"
@@ -21,9 +22,11 @@
             android:clickable="true"
             android:inputType="none"
             android:layout_marginBottom="12dp"
-            android:textSize="25dp" />
-
-
+            android:textSize="25sp"
+            android:textColor="@color/text_dark"
+            android:textColorHint="@color/text_medium"
+            android:background="@android:drawable/editbox_background"
+            android:padding="12dp" />
 
         <!-- Աճի տևողությունը -->
         <EditText
@@ -33,7 +36,11 @@
             android:hint="Growth Duration (days)"
             android:inputType="number"
             android:layout_marginBottom="12dp"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:textColor="@color/text_dark"
+            android:textColorHint="@color/text_medium"
+            android:background="@android:drawable/editbox_background"
+            android:padding="12dp" />
 
         <!-- Հաշվարկման կոճակ -->
         <Button
@@ -41,7 +48,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Calculate"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/mButtonText"
+            android:backgroundTint="@color/primary_brown" />
 
         <!-- Արդյունքների հատված -->
         <TextView
@@ -50,7 +59,8 @@
             android:layout_height="wrap_content"
             android:text="📅 Estimated Maturity Date:"
             android:textSize="16sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/text_dark" />
 
         <TextView
             android:id="@+id/tvDaysPassed"
@@ -58,7 +68,8 @@
             android:layout_height="wrap_content"
             android:text="⏳ Days Passed:"
             android:textSize="16sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/text_dark" />
 
         <TextView
             android:id="@+id/tvDaysLeft"
@@ -66,7 +77,8 @@
             android:layout_height="wrap_content"
             android:text="📉 Days Left:"
             android:textSize="16sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/text_dark" />
 
         <TextView
             android:id="@+id/tvGrowthPercent"
@@ -74,15 +86,14 @@
             android:layout_height="wrap_content"
             android:text="📊 Growth Percentage:"
             android:textSize="16sp"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/text_dark" />
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/lineChart"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_marginTop="16dp"
-            />
-
+            android:layout_marginTop="16dp" />
 
         <!-- Պատմության վերնագիր -->
         <TextView
@@ -91,7 +102,8 @@
             android:text="Calculation History:"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/text_dark" />
 
         <!-- Պատմության տարրերը կհավելվեն այստեղ -->
         <LinearLayout

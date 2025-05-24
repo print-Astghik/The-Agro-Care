@@ -1,15 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="@color/brown2"
     tools:context=".MainActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavigation"
+        android:padding="10dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Card 1 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/test1Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/test1"
+                        android:layout_width="match_parent"
+                        android:layout_height="175dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/grains"
+                        android:contentDescription="@string/grains_image" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/grains_label"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:padding="8dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Similar Cards Below -->
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/test2Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/test2"
+                        android:layout_width="match_parent"
+                        android:layout_height="175dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/vegetables"
+                        android:contentDescription="@string/vegetables_image" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/vegetables_label"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:padding="8dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Card 3 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/test3Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/test3"
+                        android:layout_width="match_parent"
+                        android:layout_height="175dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/fruits"
+                        android:contentDescription="@string/fruits_image" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fruits_label"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:padding="8dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Card 4 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/test4Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/test4"
+                        android:layout_width="match_parent"
+                        android:layout_height="175dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/herbs"
+                        android:contentDescription="@string/herbs_image" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/herbs_label"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:padding="8dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Card 5 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/test5Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/test5"
+                        android:layout_width="match_parent"
+                        android:layout_height="175dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/oilcrops"
+                        android:contentDescription="@string/oilcrops_image" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/oilcrops_label"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:padding="8dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Card 6 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/test6Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/test6"
+                        android:layout_width="match_parent"
+                        android:layout_height="175dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/legumes"
+                        android:contentDescription="@string/legumes_image" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/legumes_label"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:padding="8dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
@@ -25,185 +231,5 @@
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_menu" />
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-        <!-- Row1 -->
-        <LinearLayout
-            android:id="@+id/row1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="1dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/test1Card"
-                    android:layout_width="175dp"
-                    android:layout_height="175dp"
-                    android:layout_margin="10dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="20dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-
-                        <ImageView
-                            android:id="@+id/test1"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/grains" />
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/test2Card"
-                    android:layout_width="175dp"
-                    android:layout_height="175dp"
-                    android:layout_margin="10dp"
-
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="20dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-
-                        <ImageView
-                            android:id="@+id/test2"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/vegetables" />
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/test3Card"
-                    android:layout_width="175dp"
-                    android:layout_height="175dp"
-                    android:layout_margin="10dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="20dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-
-                        <ImageView
-                            android:id="@+id/test3"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/fruits" />
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/test4Card"
-                    android:layout_width="175dp"
-                    android:layout_height="175dp"
-                    android:layout_margin="10dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="20dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-
-                        <ImageView
-                            android:id="@+id/test4"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/herbs" />
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/test5Card"
-                    android:layout_width="175dp"
-                    android:layout_height="175dp"
-                    android:layout_margin="10dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="20dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-
-                        <ImageView
-                            android:id="@+id/test5"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/oilcrops" />
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/test6Card"
-                    android:layout_width="175dp"
-                    android:layout_height="175dp"
-                    android:layout_margin="10dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="20dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-
-                        <ImageView
-                            android:id="@+id/test6"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/legumes" />
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

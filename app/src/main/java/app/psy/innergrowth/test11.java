@@ -1,112 +1,159 @@
 package app.psy.innergrowth;
 
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
+import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
 
 public class test11 extends AppCompatActivity {
-    FloatingActionButton fab;
-    DatabaseReference databaseReference;
-    ValueEventListener eventListener;
-    RecyclerView recyclerView;
-    List<DataClass> dataList;
-    MyAdapter adapter;
-    SearchView searchView;
+
+    private static final String CHANNEL_ID = "my_channel";
+    private static final int NOTIFICATION_REQUEST_CODE = 100;
+
+    private EditText intervalDaysEditText;
+    private TextView selectedDateTimeText;
+    private TextView notificationStatusText;
+
+    private int selectedHour = 9;
+    private int selectedMinute = 0;
+    private int selectedYear, selectedMonth, selectedDay;
+
+    private boolean isNotificationOn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test11);
 
-        recyclerView = findViewById(R.id.recyclerView);
-        fab = findViewById(R.id.fab);
-        searchView = findViewById(R.id.search);
-        searchView.clearFocus();
+        intervalDaysEditText = findViewById(R.id.interval_days_edit_text);
+        selectedDateTimeText = findViewById(R.id.selected_datetime_text);
+        notificationStatusText = findViewById(R.id.notification_status_text);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(test11.this, 1);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        // Set default date to today
+        Calendar now = Calendar.getInstance();
+        selectedYear = now.get(Calendar.YEAR);
+        selectedMonth = now.get(Calendar.MONTH);
+        selectedDay = now.get(Calendar.DAY_OF_MONTH);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(test11.this);
-        builder.setCancelable(false);
-        builder.setView(R.layout.progress_layout);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-        dataList = new ArrayList<>();
-
-        adapter = new MyAdapter(test11.this, dataList);
-        recyclerView.setAdapter(adapter);
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("Android Tutorials");
-        dialog.show();
-        eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dataList.clear();
-                for (DataSnapshot itemSnapshot: snapshot.getChildren()){
-                    DataClass dataClass = itemSnapshot.getValue(DataClass.class);
-
-                    dataClass.setKey(itemSnapshot.getKey());
-
-                    dataList.add(dataClass);
-                }
-                adapter.notifyDataSetChanged();
-                dialog.dismiss();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                dialog.dismiss();
-            }
-        });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                searchList(newText);
-                return true;
-            }
-        });
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(test11.this, UploadActivity.class);
-                startActivity(intent);
-            }
-        });
-
+        updateDateTimeText();
+        createNotificationChannel();
     }
-    public void searchList(String text){
-        ArrayList<DataClass> searchList = new ArrayList<>();
-        for (DataClass dataClass: dataList){
-            if (dataClass.getDataTitle().toLowerCase().contains(text.toLowerCase())){
-                searchList.add(dataClass);
-            }
+
+    public void pickTime(View view) {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                (TimePicker timePicker, int hourOfDay, int minute) -> {
+                    selectedHour = hourOfDay;
+                    selectedMinute = minute;
+                    updateDateTimeText();
+                }, selectedHour, selectedMinute, true);
+        timePickerDialog.show();
+    }
+
+    public void pickDate(View view) {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                (DatePicker view1, int year, int month, int dayOfMonth) -> {
+                    selectedYear = year;
+                    selectedMonth = month;
+                    selectedDay = dayOfMonth;
+                    updateDateTimeText();
+                }, selectedYear, selectedMonth, selectedDay);
+        datePickerDialog.show();
+    }
+
+    private void updateDateTimeText() {
+        String formatted = String.format("Selected date and time: %04d-%02d-%02d %02d:%02d",
+                selectedYear, selectedMonth + 1, selectedDay, selectedHour, selectedMinute);
+        selectedDateTimeText.setText(formatted);
+    }
+
+    public void createNotification(View view) {
+        String intervalText = intervalDaysEditText.getText().toString().trim();
+        if (intervalText.isEmpty()) {
+            Toast.makeText(this, "Please enter interval days", Toast.LENGTH_SHORT).show();
+            return;
         }
-        adapter.searchDataList(searchList);
+
+        int intervalDays = Integer.parseInt(intervalText);
+        long repeatIntervalMillis = intervalDays * 24L * 60L * 60L * 1000L;
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, selectedYear);
+        calendar.set(Calendar.MONTH, selectedMonth);
+        calendar.set(Calendar.DAY_OF_MONTH, selectedDay);
+        calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
+        calendar.set(Calendar.MINUTE, selectedMinute);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+            Toast.makeText(this, "Selected time is in the past. Please select a future time.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                NOTIFICATION_REQUEST_CODE,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                repeatIntervalMillis,
+                pendingIntent
+        );
+
+        isNotificationOn = true;
+        notificationStatusText.setText("Notification is ON ✅");
+        Toast.makeText(this, "Notification created!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void stopNotification(View view) {
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                NOTIFICATION_REQUEST_CODE,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
+
+        isNotificationOn = false;
+        notificationStatusText.setText("Notification is OFF ❌");
+        Toast.makeText(this, "Notification stopped.", Toast.LENGTH_SHORT).show();
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "My Channel";
+            String description = "Channel for InnerGrowth reminders";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
