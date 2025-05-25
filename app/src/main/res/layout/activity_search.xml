@@ -22,7 +22,7 @@
 
             <!-- Card 1 - Fertilizers -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardFertilizers"
+                android:id="@+id/Card1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
@@ -40,7 +40,7 @@
 
             <!-- Card 2 - Grow Track -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardGrowTrack"
+                android:id="@+id/Card2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
@@ -58,7 +58,7 @@
 
             <!-- Card 3 - Water Level -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardWaterLevel"
+                android:id="@+id/Card3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
@@ -76,7 +76,7 @@
 
             <!-- Card 4 - Fertilizers Again (Optional) -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardFertilizers2"
+                android:id="@+id/Card5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"

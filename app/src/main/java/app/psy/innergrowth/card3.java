@@ -194,7 +194,7 @@ public class card3 extends AppCompatActivity implements OnMapReadyCallback {
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e("WeatherAPI", "Yerevan fallback failed: " + e.getMessage());
                 runOnUiThread(() -> {
-                    Toast.makeText(card3.this, "Cannot fetch fallback weather. Using default values.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(card3.this, "Calculating", Toast.LENGTH_SHORT).show();
                     calculateNextWatering(20.0, 60, false);
                 });
             }
@@ -204,7 +204,7 @@ public class card3 extends AppCompatActivity implements OnMapReadyCallback {
                 if (!response.isSuccessful()) {
                     Log.e("WeatherAPI", "Yerevan API error: " + response.code());
                     runOnUiThread(() -> {
-                        Toast.makeText(card3.this, "Yerevan weather error. Using default values.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(card3.this, "Calculating", Toast.LENGTH_SHORT).show();
                         calculateNextWatering(20.0, 60, false);
                     });
                     return;
@@ -232,7 +232,7 @@ public class card3 extends AppCompatActivity implements OnMapReadyCallback {
                 } catch (JSONException e) {
                     Log.e("WeatherAPI", "Yerevan JSON error: " + e.getMessage());
                     runOnUiThread(() -> {
-                        Toast.makeText(card3.this, "Failed to parse Yerevan weather. Using default values.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(card3.this, "Calculating.", Toast.LENGTH_SHORT).show();
                         calculateNextWatering(20.0, 60, false);
                     });
                 }
@@ -254,7 +254,7 @@ public class card3 extends AppCompatActivity implements OnMapReadyCallback {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e("WeatherAPI", "Main API failed: " + e.getMessage());
-                runOnUiThread(() -> Toast.makeText(card3.this, "Failed to fetch weather for selected location. Using Yerevan as fallback.", Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> Toast.makeText(card3.this, "Calculating", Toast.LENGTH_SHORT).show());
 
                 // CALL fallback to Yerevan's weather
                 fetchFallbackWeatherFromYerevan();
@@ -265,7 +265,7 @@ public class card3 extends AppCompatActivity implements OnMapReadyCallback {
                 if (!response.isSuccessful()) {
                     Log.e("WeatherAPI", "API error: " + response.code());
                     runOnUiThread(() -> {
-                        Toast.makeText(card3.this, "Using default weather data", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(card3.this, "Calculating", Toast.LENGTH_SHORT).show();
                         calculateNextWatering(20.0, 60, false); // fallback
                     });
                     return;

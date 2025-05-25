@@ -32,7 +32,6 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         detailDesc = findViewById(R.id.detailDesc);
-        detailImage = findViewById(R.id.detailImage);
         detailTitle = findViewById(R.id.detailTitle);
         deleteButton = findViewById(R.id.deleteButton);
         editButton = findViewById(R.id.editButton);

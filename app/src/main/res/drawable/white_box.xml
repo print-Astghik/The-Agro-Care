@@ -5,9 +5,9 @@
     <corners
         android:radius="20dp"/>
     <stroke
-        android:color="@color/lavender"
+        android:color="@color/espresso_depth"
         android:width="2dp"/>
     <solid
-        android:color="@color/lavender"/>
+        android:color="@color/almond_silk"/>
 
 </shape>

@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="24dp"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    card_view:cardCornerRadius="16dp"
+    card_view:cardElevation="8dp"
+    android:background="@android:color/transparent">
 
-    <TextView
-        android:id="@+id/locationText"
-        android:text="Location: "
-        android:textSize="18sp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:background="@color/almond_silk">
 
-    <TextView
-        android:id="@+id/weatherText"
-        android:text="Weather: "
-        android:textSize="16sp"
-        android:layout_marginTop="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/locationText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📍 Location:"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#2C2C2C" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/weatherText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🌤 Weather:"
+            android:textSize="18sp"
+            android:layout_marginTop="12dp"
+            android:textColor="#444444" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
