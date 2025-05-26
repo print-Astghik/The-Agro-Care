@@ -31,6 +31,7 @@
         android:layout_gravity="center"
         android:id="@+id/detailLang"
         android:textSize="18sp"
+        android:background="@drawable/lavender_border"
         android:textColor="@color/brown2"/>
 
     <TextView
@@ -42,6 +43,7 @@
         android:layout_gravity="center"
         android:id="@+id/detailDesc"
         android:textSize="18sp"
+        android:background="@drawable/lavender_border"
         android:textColor="@color/brown2"/>
 
     <RelativeLayout
